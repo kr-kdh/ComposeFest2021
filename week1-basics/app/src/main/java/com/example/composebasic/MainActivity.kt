@@ -63,7 +63,7 @@ private fun Greetings(names: List<String> = List(1000) { "$it"} ) {
 
 @Composable
 fun CardContent(name: String) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
 
     Row(
         modifier = Modifier
