@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
             LayoutsInJetpackComposeTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    LayoutCodeLabPreview()
+                    ScrollingList()
                 }
             }
         }
@@ -41,6 +41,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     LayoutsInJetpackComposeTheme {
-        PhotographerCard()
+        ScrollingList()
     }
 }
