@@ -106,16 +106,17 @@ private fun randomTint(): Float {
     return Random.nextFloat().coerceIn(0.3f, 0.9f)
 }
 
-@Composable
-fun TodoInputTextField(text: String, onTextChange: (String) -> Unit, modifier: Modifier) {
-    TodoInputText(text, onTextChange, modifier)
-}
 
 @Composable
 fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
     val (text, setText) = remember { mutableStateOf("") }
     val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default)}
     val iconsVisible = text.isNotBlank()
+    val submit = {
+        onItemComplete(TodoItem(text, icon))
+        setIcon(TodoIcon.Default)
+        setText("")
+    }
 
     Column() {
         Row(
@@ -123,18 +124,16 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
                 .padding(horizontal = 16.dp)
                 .padding(top = 16.dp)
         ) {
-            TodoInputTextField(
+            TodoInputText(
                 text = text,
                 onTextChange = setText,
                 modifier = Modifier
                     .weight(1f)
-                    .padding(end = 8.dp)
+                    .padding(end = 8.dp),
+                onImeAction = submit // pass the submit callback to TodoInputText
             )
             TodoEditButton(
-                onClick = {
-                    onItemComplete(TodoItem(text))
-                    setText("")
-                },
+                onClick = submit,
                 text = "Add",
                 modifier = Modifier.align(Alignment.CenterVertically),
                 enabled = text.isNotBlank()
