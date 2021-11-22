@@ -85,8 +85,10 @@ fun TodoScreen(
  * @param modifier modifier for this element
  */
 @Composable
-fun TodoRow(todo: TodoItem, onItemClicked: (TodoItem) -> Unit, modifier: Modifier = Modifier,
-            iconAlpha: Float = remember(todo.id) { randomTint() }) {
+fun TodoRow(
+    todo: TodoItem, onItemClicked: (TodoItem) -> Unit, modifier: Modifier = Modifier,
+    iconAlpha: Float = remember(todo.id) { randomTint() }
+) {
     Row(
         modifier = modifier
             .clickable { onItemClicked(todo) }
@@ -110,7 +112,7 @@ private fun randomTint(): Float {
 @Composable
 fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
     val (text, setText) = remember { mutableStateOf("") }
-    val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default)}
+    val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default) }
     val iconsVisible = text.isNotBlank()
     val submit = {
         onItemComplete(TodoItem(text, icon))
