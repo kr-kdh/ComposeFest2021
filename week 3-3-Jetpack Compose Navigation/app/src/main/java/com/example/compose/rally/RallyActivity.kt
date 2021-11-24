@@ -81,15 +81,31 @@ fun RallyApp() {
 @Composable
 fun RallyNavHost(
     navController: NavHostController,
-    innerPadding: PaddingValues,
-
-    ) {
+    innerPadding: PaddingValues)
+{
 
     NavHost(
         navController = navController,
         startDestination = RallyScreen.Overview.name,
         modifier = Modifier.padding(innerPadding),
     ) {
+        composable(RallyScreen.Overview.name) {
+            OverviewBody(
+                onClickSeeAllAccounts = { navController.navigate(RallyScreen.Accounts.name) },
+                onClickSeeAllBills = { navController.navigate(RallyScreen.Bills.name) },
+                onAccountClick = { name ->
+                    navigateToSingleAccount(navController, name)
+                },
+            )
+        }
+        composable(RallyScreen.Accounts.name) {
+            AccountsBody(accounts = UserData.accounts)
+        }
+
+        composable(RallyScreen.Bills.name) {
+            BillsBody(bills = UserData.bills)
+        }
+
         val accountsName = RallyScreen.Accounts.name
         composable(
             route = "$accountsName/{name}",
@@ -107,23 +123,6 @@ fun RallyNavHost(
             val account = UserData.getAccount(accountName)
             SingleAccountBody(account = account)
         }
-
-        composable(RallyScreen.Overview.name) {
-            OverviewBody(
-                onClickSeeAllAccounts = { navController.navigate(RallyScreen.Accounts.name) },
-                onClickSeeAllBills = { navController.navigate(RallyScreen.Bills.name) },
-                onAccountClick = { name ->
-                    navigateToSingleAccount(navController, name)
-                },
-            )
-        }
-        composable(RallyScreen.Accounts.name) {
-            AccountsBody(accounts = UserData.accounts)
-        }
-        composable(RallyScreen.Bills.name) {
-            BillsBody(bills = UserData.bills)
-        }
-
     }
 }
 
