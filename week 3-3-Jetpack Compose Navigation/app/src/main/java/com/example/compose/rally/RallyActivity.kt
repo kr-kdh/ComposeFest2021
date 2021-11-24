@@ -31,6 +31,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.example.compose.rally.data.UserData
 import com.example.compose.rally.ui.accounts.AccountsBody
 import com.example.compose.rally.ui.accounts.SingleAccountBody
@@ -87,7 +88,7 @@ fun RallyNavHost(
     NavHost(
         navController = navController,
         startDestination = RallyScreen.Overview.name,
-        modifier = Modifier.padding(innerPadding)
+        modifier = Modifier.padding(innerPadding),
     ) {
         val accountsName = RallyScreen.Accounts.name
         composable(
@@ -97,7 +98,10 @@ fun RallyNavHost(
                     // Make argument type safe
                     type = NavType.StringType
                 }
-            )
+            ),
+            deepLinks =  listOf(navDeepLink {
+                uriPattern = "rally://$accountsName/{name}"
+            })
         ) { entry ->
             val accountName = entry.arguments?.getString("name")
             val account = UserData.getAccount(accountName)
@@ -119,6 +123,7 @@ fun RallyNavHost(
         composable(RallyScreen.Bills.name) {
             BillsBody(bills = UserData.bills)
         }
+
     }
 }
 
